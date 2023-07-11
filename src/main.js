@@ -1,14 +1,35 @@
-var http = require('http');
-var fs = require('fs');
+var createError = require('http-errors');
+var express = require('express');
+var path = require('path');
+var cardsRouter = require('../src/routes/cards');
 
-const PORT = 8100;
+const port = 8100;
 
-fs.readFile('./www/index.html', function (err, html) {
-    if (err) throw err;    
-    http.createServer(function(request, response) {  
-        response.writeHeader(200, {"Content-Type": "text/html"});  
-        response.write(html);  
-        response.end();  
-    }).listen(PORT);
+var app = express();
+// view engine setup
+app.use('/cards', cardsRouter);
+app.set('views', path.join(__dirname, '../www'));
+app.set('view engine', 'ejs');
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, 'public')));
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`)
+})
+
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  next(createError(404));
 });
-console.log(`Running server on http://localhost:${PORT}`);
+
+// error handler
+app.use(function(err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  // render the error page
+  res.status(err.status || 500);
+  res.render('error');
+});
+module.exports = app;
