@@ -2,6 +2,7 @@ var express = require('express');
 var bodyparser = require('body-parser');
 var cardsRouter = require('../src/routes/cards');
 var userRouter = require('../src/routes/users');
+var signOutRouter = require('../src/routes/signout');
 var path = require('path');
 
 const port = 8090;
@@ -17,6 +18,7 @@ app.use(bodyparser.urlencoded({
 app.use(bodyparser.json());
 app.use('/get/cards', cardsRouter);
 app.use('/get/users', userRouter);
+app.use('/get/signout', signOutRouter);
 app.get('/main', (req, res) => {
   res.render('../www/index.ejs');
 });
