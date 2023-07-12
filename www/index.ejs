@@ -4,6 +4,7 @@
         <title>Testing</title>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js">
         </script>
+        <script src="../src/common.js"></script>
     </head>
     <body>
         <table id="cc">
@@ -18,16 +19,7 @@
                 $(document).ready(()=>{
                     $.get('../get/cards', (data, status)=>{
                         console.log(status);
-                        var table = document.getElementById('cc');
-                        var row = table.insertRow(1);
-                        var i=0;
-                        data.forEach(element => {
-                            for(const key in element){
-                                var col = row.insertCell(i);
-                                col.innerHTML = element[key];
-                                i++;
-                            }
-                        });
+                        addRow('cc', data);
                     })
                 })
             </script>
@@ -45,16 +37,7 @@
                 $(document).ready(()=>{
                     $.get('../get/users', (data, status)=>{
                         console.log(status);
-                        var table = document.getElementById('users');
-                        var row = table.insertRow(1);
-                        var i=0;
-                        data.forEach(element => {
-                            for(const key in element){
-                                var col = row.insertCell(i);
-                                col.innerHTML = element[key];
-                                i++;
-                            }
-                        });
+                        addRow('users', data);
                     })
                 })
             </script>
@@ -73,16 +56,7 @@
                 $(document).ready(()=>{
                     $.get('../get/signout', (data, status)=>{
                         console.log(status);
-                        var table = document.getElementById('signout');
-                        var row = table.insertRow(1);
-                        var i=0;
-                        data.forEach(element => {
-                            for(const key in element){
-                                var col = row.insertCell(i);
-                                col.innerHTML = element[key];
-                                i++;
-                            }
-                        });
+                        addRow('signout', data);
                     })
                 })
             </script>

@@ -1,4 +1,5 @@
 var express = require('express');
+var common = require('../src/common');
 var bodyparser = require('body-parser');
 var cardsRouter = require('../src/routes/cards');
 var userRouter = require('../src/routes/users');
@@ -9,7 +10,7 @@ const port = 8090;
 
 var app = express();
 
-app.use(express.static(path.join(__dirname, '../www/js')));
+app.use(express.static(path.join(__dirname, '../')));
 app.set('views', path.join(__dirname, '../www'));
 app.set('view engine', 'ejs');
 app.use(bodyparser.urlencoded({
