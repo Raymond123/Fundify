@@ -4,7 +4,6 @@
         <title>Testing</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
         <table id="cc">
             <tr>
                 <th>Card #</th>
@@ -13,19 +12,28 @@
                 <th>Signed Out</th>
             </tr>
 
-            <% 
-                if(userData.length!=0){
-                    var i = 1;
-                    userData.forEach(function(date){
-                        <tr>
-                            <td><%=data.number %></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    });
-                }
-            %>
+            <%
+            if(cardData.length!=0){
+                var i=1;
+                cardData.forEach(function(data){ %>
+                    <tr>
+                        <td><%=data.number %></td>
+                        <td><%=data.expiry_date %></td>
+                        <td><%=data.active %></td>
+                        <td><%=data.signed_out %></td>
+                    </tr>
+                <%})
+            } %>
+        </table>
+        <hr>
+        <table id="users">
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Active</th>
+            </tr>
+            
         </table>
     </body>
 </html>

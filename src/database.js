@@ -5,11 +5,12 @@ var con = mysql.createConnection({
     user: "doadmin",
     password: "AVNS_TAgrepXtjZVgWsUok-V",
     port: 25060, 
-    database: "defaultdb"
+    database: "defaultdb",
+    dateStrings: 'date'
 });
 
 con.connect(function(err){
     if(err) throw err;
-    // console.log("Connected!");
+    console.log("Connected!");
 });
 module.exports = con;
