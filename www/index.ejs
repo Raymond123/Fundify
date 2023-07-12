@@ -2,6 +2,8 @@
 <html>
     <head>
         <title>Testing</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js">
+        </script>
     </head>
     <body>
         <table id="cc">
@@ -12,18 +14,24 @@
                 <th>Signed Out</th>
             </tr>
 
-            <%
-            if(cardData.length!=0){
-                var i=1;
-                cardData.forEach(function(data){ %>
-                    <tr>
-                        <td><%=data.number %></td>
-                        <td><%=data.expiry_date %></td>
-                        <td><%=data.active %></td>
-                        <td><%=data.signed_out %></td>
-                    </tr>
-                <%})
-            } %>
+            <script>
+                $(document).ready(()=>{
+                    $.get('../get/cards', (data, status)=>{
+                        console.log(status);
+                        var table = document.getElementById('cc');
+                        var row = table.insertRow(1);
+                        var i=0;
+                        data.forEach(element => {
+                            for(const key in element){
+                                var col = row.insertCell(i);
+                                col.innerHTML = element[key];
+                                i++;
+                            }
+                        });
+                    })
+                })
+            </script>
+
         </table>
         <hr>
         <table id="users">
@@ -33,7 +41,23 @@
                 <th>Phone</th>
                 <th>Active</th>
             </tr>
-            
+            <script>
+                $(document).ready(()=>{
+                    $.get('../get/users', (data, status)=>{
+                        console.log(status);
+                        var table = document.getElementById('users');
+                        var row = table.insertRow(1);
+                        var i=0;
+                        data.forEach(element => {
+                            for(const key in element){
+                                var col = row.insertCell(i);
+                                col.innerHTML = element[key];
+                                i++;
+                            }
+                        });
+                    })
+                })
+            </script>
         </table>
     </body>
 </html>
