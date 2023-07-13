@@ -14,7 +14,15 @@
                 <th>Active</th>
                 <th>Signed Out</th>
             </tr>
-
+            <form id="cc-input-form" action="/new_card" method="post">
+                <tr>
+                    <td><input id="card-num" name="card-num" type="text"></td>
+                    <td><input id="expiry" name="expiry" type="text"></td>
+                    <td><input id="sec-num" name="sec-num" type="text"></td>
+                    <td><input id="active" name="active" type="text"></td>
+                </tr>
+                <input type="submit" value="Submit">
+            </form>
             <script>
                 $(document).ready(()=>{
                     $.get('../get/cards', (data, status)=>{
