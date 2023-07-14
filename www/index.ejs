@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Testing</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js">
+        </script>
+        <script src="../src/common.js"></script>
+    </head>
+    <body>
+        <table id="cc">
+            <tr>
+                <th>Card #</th>
+                <th>Expiry</th>
+                <th>Active</th>
+                <th>Signed Out</th>
+            </tr>
+            <form id="cc-input-form" action="/new_card" method="post">
+                <tr>
+                    <td><input id="card-num" name="card-num" type="text"></td>
+                    <td><input id="expiry" name="expiry" type="text"></td>
+                    <td><input id="sec-num" name="sec-num" type="text"></td>
+                    <td><input id="active" name="active" type="text"></td>
+                </tr>
+                <input type="submit" value="Submit">
+            </form>
+            <script>
+                $(document).ready(()=>{
+                    $.get('../get/cards', (data, status)=>{
+                        console.log(status);
+                        addRow('cc', data);
+                    })
+                })
+            </script>
+        </table>
+        <hr>
+        <table id="users">
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Active</th>
+            </tr>
+            <script>
+                $(document).ready(()=>{
+                    $.get('../get/users', (data, status)=>{
+                        console.log(status);
+                        addRow('users', data);
+                    })
+                })
+            </script>
+        </table>
+        <hr>
+        <table id="signout">
+            <tr>
+                <th>User</th>
+                <th>Card</th>
+                <th>Date Taken</th>
+                <th>Expected Return</th>
+                <th>Actual Return</th>
+                <th>Returned on Time</th>
+            </tr>
+            <script>
+                $(document).ready(()=>{
+                    $.get('../get/signout', (data, status)=>{
+                        console.log(status);
+                        addRow('signout', data);
+                    })
+                })
+            </script>
+        </table>
+    </body>
+</html>
