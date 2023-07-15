@@ -13,7 +13,6 @@ con.connect(function(err){
     if(err) throw err;
     console.log("Connected!");
 });
-module.exports = con;
 
 function addCard(data){
     var sql = `INSERT INTO credit_cards 
@@ -52,7 +51,7 @@ function returnCard(data){
     var sql = `SELECT expected_return FROM sign_out 
     WHERE card_id=${data.card_id} AND user_id=${data.user_id}`
 
-    db.query(sql, (err, returnData, fields) => {
+    con.query(sql, (err, returnData, fields) => {
         if(err) throw err;
 
         // check date before after
@@ -66,7 +65,26 @@ function returnCard(data){
 }
 
 function runQry(sql){
-    db.query(sql, (err, status) => {
+    con.query(sql, (err, status) => {
         if(err) throw err;
     });
 }
+
+const authorize = (email, pswd) => {
+    return true;
+    var sql = `SELECT pswd FROM users WHERE email=${email}`
+    con.query(sql, (err, data, fields) => {
+        if(err) throw err;
+        if(data===null) return false;
+        else{
+            var enc = data.password;
+            if(pswd == data.password){
+                return true;
+            }
+        }
+    });
+    return true; // TODO change this true to false
+}
+
+exports.con = con;
+exports.authorize = authorize;

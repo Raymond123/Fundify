@@ -1,11 +1,11 @@
 var express = require('express');
-var common = require('../src/common');
 var bodyparser = require('body-parser');
 var cardsRouter = require('../src/routes/cards');
 var userRouter = require('../src/routes/users');
 var signOutRouter = require('../src/routes/signout');
 var path = require('path');
 
+const { authorize } = require('../src/database');
 const port = 8090;
 
 var app = express();
@@ -27,6 +27,10 @@ app.use('/get/signout', signOutRouter);
 app.get('/main', (req, res) => {
   res.render('../www/index.ejs');
 });
+app.get('/', (req, res) => {
+  res.render('../www/login.ejs');
+});
+
 app.post('/new_card', (req, res) => {
   if(res.statusCode != 200) console.log(res.statusCode);
   console.log(req.body);
@@ -34,6 +38,12 @@ app.post('/new_card', (req, res) => {
   // redirects back to main page to comply with POST/redirect pattern
   res.redirect('main');
 })
+
+app.post('/login', (req, res) => {
+  var data = req.body;
+  if(authorize(data.email, data.password)) 
+    res.redirect('main');
+});
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}..`)
