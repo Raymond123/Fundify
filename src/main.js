@@ -5,7 +5,7 @@ var userRouter = require('../src/routes/users');
 var signOutRouter = require('../src/routes/signout');
 var path = require('path');
 
-const { authorize } = require('../src/database');
+const { authorize, addUser } = require('../src/database');
 const port = 8090;
 
 var app = express();
@@ -39,10 +39,17 @@ app.post('/new_card', (req, res) => {
   res.redirect('main');
 })
 
+app.post('/new_user', (req, res) => {
+  if(res.statusCode != 200) console.log(res.statusCode);
+
+  addUser(req.body);
+  // redirects back to main page to comply with POST/redirect pattern
+  res.redirect('main');
+})
+
 app.post('/login', (req, res) => {
   var data = req.body;
-  if(authorize(data.email, data.password)) 
-    res.redirect('main');
+  authorize(data.email, data.password, res);
 });
 
 app.listen(port, () => {

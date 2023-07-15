@@ -1,4 +1,5 @@
 var mysql = require('mysql');
+var bcrypt = require('bcrypt');
 
 var con = mysql.createConnection({
     host: "db-mysql-tor1-58148-do-user-11220454-0.b.db.ondigitalocean.com",
@@ -14,6 +15,26 @@ con.connect(function(err){
     console.log("Connected!");
 });
 
+exports.con = con;
+
+const cryptPassword = function(password, callback) {
+    bcrypt.genSalt(10, function(err, salt) {
+        if (err) throw err;
+
+        bcrypt.hash(password, salt, function(err, hash) {
+            if(err) throw err;
+            return callback(hash);
+        });
+    });
+ };
+ 
+ const comparePassword = async function(plainPass, hashword, callback) {
+    bcrypt.compare(plainPass, hashword, function(err, isPasswordMatch) {   
+        if(err) throw err;
+        return callback(isPasswordMatch);
+    });
+ };
+
 function addCard(data){
     var sql = `INSERT INTO credit_cards 
         (number, expiry_date, security_num, active) 
@@ -21,11 +42,21 @@ function addCard(data){
     runQry(sql);
 }
 
-function addUser(data){
-    var sql = `INSERT INTO users 
-        (f_name, l_name, email, phone, active) 
-        VALUES (${data.f_name}, ${data.l_name}, ${data.email}, ${data.phone}, true)`;
-    runQry(sql);
+exports.addUser = (data) => {
+    const insert = (pswd) => {
+        var sql = `INSERT INTO users 
+        (f_name, l_name, email, phone, active, password) 
+        VALUES 
+        (
+            '${data.f_name}', 
+            '${data.l_name}', 
+            '${data.email}', 
+            '${data.phone}', true, 
+            '${pswd}'
+        )`;
+        runQry(sql);
+    }
+    cryptPassword(data.pswd, insert);   
 }
 
 function signOutCard(data){
@@ -70,21 +101,18 @@ function runQry(sql){
     });
 }
 
-const authorize = (email, pswd) => {
-    return true;
-    var sql = `SELECT pswd FROM users WHERE email=${email}`
+exports.authorize = (email, pswd, res) => {
+    var sql = `SELECT password FROM users WHERE email='${email}'`
     con.query(sql, (err, data, fields) => {
         if(err) throw err;
-        if(data===null) return false;
-        else{
-            var enc = data.password;
-            if(pswd == data.password){
-                return true;
+        if(data===null) res.redirect('/');;
+        return comparePassword(pswd, data[0].password, (bool) => {
+            console.log(bool);
+            if(bool) {
+                res.redirect('main');
+                return;
             }
-        }
+            res.redirect('/');
+        });
     });
-    return true; // TODO change this true to false
 }
-
-exports.con = con;
-exports.authorize = authorize;

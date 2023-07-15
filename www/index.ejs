@@ -40,6 +40,16 @@
                 <th>Phone</th>
                 <th>Active</th>
             </tr>
+            <form id="user-input-form" action="/new_user" method="post">
+                <tr>
+                    <td><input id="f_name" name="f_name" type="text"></td>
+                    <td><input id="l_name" name="l_name" type="text"></td>
+                    <td><input id="email" name="email" type="text"></td>
+                    <td><input id="phone" name="phone" type="number"></td>
+                    <td><input id="pswd" name="pswd" type="text"></td>
+                </tr>
+                <input type="submit" value="Submit">
+            </form>
             <script>
                 $(document).ready(()=>{
                     $.get('../get/users', (data, status)=>{
