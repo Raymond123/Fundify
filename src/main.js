@@ -18,6 +18,11 @@ app.use(bodyparser.urlencoded({
 }));
 app.use(bodyparser.json());
 
+// Serve the CSS file
+app.get('/main/styles.css', (req, res) => {
+  res.sendFile(path.join(__dirname, 'styles.css'), { headers: { 'Content-Type': 'text/css' } });
+});
+
 // Routes
 app.use('/get/cards', cardsRouter);
 app.use('/get/users', userRouter);
