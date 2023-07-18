@@ -113,6 +113,7 @@ exports.authorize = (req, res) => {
             console.log(bool);
             if(!bool) {
                 res.redirect('/');
+                return;
             }
             res.redirect('main');
         });
