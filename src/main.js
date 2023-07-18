@@ -30,8 +30,13 @@ app.get('/main', (req, res) => {
   res.render('../www/index.ejs');
 });
 
-app.get('/auth', authorize, (req, res) => {
+app.get('/auth', authorize);
 
+app.get('/logout', function(req, res){
+  req.session.destroy(function(){
+     console.log("user logged out.")
+  });
+  res.redirect('/');
 });
 
 app.get('/', (req, res) => {
