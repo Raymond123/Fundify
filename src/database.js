@@ -101,18 +101,20 @@ function runQry(sql){
     });
 }
 
-exports.authorize = (email, pswd, res) => {
-    var sql = `SELECT password FROM users WHERE email='${email}'`
+exports.authorize = (req, res) => {
+    var sql = `SELECT password FROM users WHERE email='${req.session.email}'`
     con.query(sql, (err, data, fields) => {
-        if(err) throw err;
-        if(data===null) res.redirect('/');;
-        return comparePassword(pswd, data[0].password, (bool) => {
-            console.log(bool);
-            if(bool) {
-                res.redirect('main');
-                return;
-            }
+        if(data[0] === undefined || data.length == 0) {
             res.redirect('/');
+            return;
+        }
+        if(err) throw err;
+        return comparePassword(req.session.pswd, data[0].password, (bool) => {
+            console.log(bool);
+            if(!bool) {
+                res.redirect('/');
+            }
+            res.redirect('main');
         });
     });
 }
