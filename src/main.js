@@ -23,6 +23,15 @@ app.get('/main/styles.css', (req, res) => {
   res.sendFile(path.join(__dirname, 'styles.css'), { headers: { 'Content-Type': 'text/css' } });
 });
 
+app.get('/get/logoStandard', (req, res) => {
+  res.sendFile(path.join(__dirname, `../src/LogoFundify.png`));
+});
+
+app.get('/get/logoLeft', (req, res) => {
+  res.sendFile(path.join(__dirname, `../src/LogoLeft.png`));
+});
+
+
 // Routes
 app.use('/get/cards', cardsRouter);
 app.use('/get/users', userRouter);

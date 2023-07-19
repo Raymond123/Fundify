@@ -129,6 +129,7 @@ hr {
 
 .logo {
   float: left;
+  margin-top: -7px;
 }
 
 .nav-elements {
@@ -145,4 +146,11 @@ hr {
 
 .sub-nav {
   margin-right: 20px;
+}
+
+#logo {
+  height: auto; 
+  width: auto; 
+  max-width: 100px; 
+  max-height: 100px;
 }
