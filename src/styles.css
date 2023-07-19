@@ -1,76 +1,148 @@
 /* styles.css */
 body {
-    margin: 0;
+  margin: 0;
+  background-color: #f1eeee;
+}
+
+input {
+  /*background-color: #FFFADE;*/
+  border-width: 1px;
+}
+
+input[type="submit"] {
+  padding: 8px;
+  background-color: #7d5ddd; /* Green background color */
+  color: white;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 200px;
+}
+
+input[type="submit"]:hover {
+  background-color: #b3a1e7; /* Darker green background color on hover */
 }
 
 /* Table styles */
 table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  th, td {
-    padding: 8px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  th {
-    background-color: #f2f2f2;
-  }
-  
-  /* Form styles */
-  #cc-input-form {
-    margin-top: 20px;
-  }
-  
-  #cc-input-form td {
-    padding: 4px;
-  }
-  
-  #cc-input-form input[type="text"] {
-    width: 100%;
-    padding: 6px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-  }
-  
-  /* Additional styles */
-  hr {
-    margin: 20px 0;
-  }
+  width: 100%;
+  border-collapse: collapse;
+}
 
+th, td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  width: auto;
+  color: black;
+}
+
+th {
+  background-color: #f2f2f2;
+  width: auto;
+}
+
+tr {
+  width: auto;
+}
+
+.rounded-top-right {
+  border-radius: 0px 5px 5px 0px;
+}
+
+.rounded-top-left {
+  border-radius: 5px 0 0 5px;
+}
+
+/* Form styles */
+#cc-input-form {
+  margin-top: 20px;
+  background-color: #f7f7f9; /* Light purple background */
+  padding: 10px; /* Add padding for spacing */
+  border-radius: 5px; /* Rounded corners */
+}
+
+#cc-input-form td {
+  padding: 4px;
+}
+
+#cc-input-form input[type="text"] {
+  width: 100%;
+  padding: 6px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+/* Additional styles */
+hr {
+  margin: 20px 0;
+}
 
 .navbar {
-    background-color: white;
-    overflow: hidden;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
-    margin-bottom: 15px;
+  background-color: white;
+  overflow: hidden;
+  width: 100%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  margin-bottom: 15px;
 }
 
 .navbar a {
-    color: rgb(5, 5, 5); 
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    font-family: Arial, sans-serif;
-    font-size: 16px;
-    transition: text-decoration 0.2s; 
+  color: rgb(5, 5, 5);
+  text-align: center;
+  
+  text-decoration: none;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  transition: text-decoration 0.2s;
 }
 
 .navbar a:hover {
-    text-decoration: underline; 
+  text-decoration: underline;
 }
 
-#cc-input-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.frame {
+  border: 1px solid #ccc; /* Add a border around the frame */
+  padding: 10px; /* Add padding for spacing */
+  border-radius: 5px; /* Rounded corners */
+  margin: 30px;
+  margin-right: 60px;
+  margin-left: 60px;
+  background-color: white;
+  outline: outset;
+  outline-color: #36287F;
 }
 
-#cc-input-form input[type="submit"] {
-    margin-top: 10px;
+.logout {
+  padding: 8px;
+  background-color: #7d5ddd; /* Green background color */
+  color: white;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  float: right;
+  margin-top: -7px;
+}
+
+.logo {
+  float: left;
+}
+
+.nav-elements {
+  padding-top: 14px;
+  padding-bottom: 14px;
+  text-align: center;
+  margin-left: 60px;
+  margin-right: 60px;
+}
+
+.logout-div {
+  float: right;
+}
+
+.sub-nav {
+  margin-right: 20px;
 }
