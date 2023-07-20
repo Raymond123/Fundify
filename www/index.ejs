@@ -140,7 +140,7 @@
                         row.append($('<td>Active</td>'));
                         row.append($('<td></td>').text(card.signed_out)); // Append signed out status
                         row.append(
-                            $(`<td><a style="margin-left: 5px;" class="logout" href="/cards/delete?number=${card.number.split(" ")[0]}&sec_num=${card.security_num}">Delete</a><a href="/signout_card?card=${card.card_id}&user=5&status=${card.active}" class="logout">Sign Out</a></td>`));
+                            $(`<td><a style="margin-left: 5px;" class="logout" href="/cards/delete?number=${card.number.split(" ")[0]}&sec_num=${card.security_num}">Delete</a><a href="/signout_card?card=${card.card_id}&status=${card.active}" class="logout">Sign Out</a></td>`));
                     }else {
                         row.append($('<td>Inactive</td>'));
                         row.append($('<td></td>'));

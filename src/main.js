@@ -41,7 +41,8 @@ app.use(session({secret: "Your secret key"}));
 
 // HTTP Requests
 app.get('/main', (req, res) => {
-  res.render('../www/index.ejs');
+  if(req.session.user_id) res.render('../www/index.ejs');
+  else res.redirect('/');
 });
 
 app.get('/auth', authorize);
@@ -70,7 +71,7 @@ app.get('/signout_card', (req, res) => {
 
     data = { // ${data.card_id}, ${data.user_id}, ${data.date}, ${data.expected_return}
       card_id: params.card,
-      user_id: params.user,
+      user_id: req.session.user_id,
       date: dateStr,
       expected_return: retStr 
     };
@@ -127,7 +128,6 @@ app.post('/return_card', (req, res) => {
     actual_return: body.ret_date,
     status: body.ret_ont
   };
-  console.log(data)
 
   returnCard(data);
   res.redirect('main');

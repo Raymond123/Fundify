@@ -60,7 +60,10 @@ exports.addUser = (data, res) => {
 
 exports.signOutCard = (data) => {
     var sql = `INSERT INTO sign_out (card_id, user_id, date, expected_return) VALUES (${data.card_id}, ${data.user_id}, '${data.date}', '${data.expected_return}')`;
+
+    var sql2 = `UPDATE credit_cards SET signed_out=1 WHERE card_id=${data.card_id}`;
     runQry(sql);
+    runQry(sql2);
 }
 
 exports.deleteCard = (data) => {
@@ -82,12 +85,12 @@ exports.returnCard = (data) => {
 function runQry(sql){
     con.query(sql, (err, status) => {
         if(err) throw err;
-        console.log(status);
+        // console.log(status);
     });
 }
 
 exports.authorize = (req, res) => {
-    var sql = `SELECT password FROM users WHERE email='${req.session.email}'`
+    var sql = `SELECT * FROM users WHERE email='${req.session.email}'`
     con.query(sql, (err, data, fields) => {
         if(data[0] === undefined || data.length == 0) {
             res.redirect('/');
@@ -99,6 +102,7 @@ exports.authorize = (req, res) => {
                 res.redirect('/');
                 return;
             }
+            req.session.user_id = data[0].user_id;
             res.redirect('main');
         });
     });
