@@ -1,18 +1,33 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Testing</title>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js">
-        </script>
-        <script src="../src/common.js"></script>
-    </head>
-    <body>
+<head>
+    <title>Testing</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="../src/common.js"></script>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+    <!-- Navbar/header -->
+    <div class="navbar">
+        <div class="nav-elements">
+            <div class="logo">
+                <a href="#"><img id="logo" src="/get/logoLeft" alt="Logo"></a>
+            </div>
+            <a class="sub-nav" href="#">Home</a>
+            <a class="sub-nav" href="#">About</a>
+            <a class="sub-nav" href="#">Services</a>
+            <a class="sub-nav" href="#">Contact</a>
+            <button id="logout-button" class="logout">Logout</button>
+        </div>
+    </div>
+
+    <div class="frame"> <!-- Add a div container for the frame -->
         <table id="cc">
             <tr>
-                <th>Card #</th>
+                <th class="rounded-top-left">Card #</th>
                 <th>Expiry</th>
                 <th>Active</th>
-                <th>Signed Out</th>
+                <th class="rounded-top-right">Signed Out</th>
             </tr>
             <form id="cc-input-form" action="/new_card" method="post">
                 <tr>
@@ -21,62 +36,59 @@
                     <td><input id="sec-num" name="sec-num" type="text"></td>
                     <td><input id="active" name="active" type="text"></td>
                 </tr>
-                <input type="submit" value="Submit">
+                <tr>
+                    <td colspan="4">
+                        <input type="submit" value="Submit">
+                    </td>
+                </tr>
             </form>
-            <script>
-                $(document).ready(()=>{
-                    $.get('../get/cards', (data, status)=>{
-                        console.log(status);
-                        addRow('cc', data);
-                    })
-                })
-            </script>
         </table>
-        <hr>
-        <table id="users">
+    </div> <!-- Close the div container for the frame -->
+
+
+    <div class="frame"> <!-- Add a div container for the frame -->
+        <table id="users" class="test">
             <tr>
-                <th>Name</th>
+                <th class="rounded-top-left">Name</th>
                 <th>Email</th>
                 <th>Phone</th>
-                <th>Active</th>
+                <th class="rounded-top-right">Active</th>
             </tr>
-            <form id="user-input-form" action="/new_user" method="post">
-                <tr>
-                    <td><input id="f_name" name="f_name" type="text"></td>
-                    <td><input id="l_name" name="l_name" type="text"></td>
-                    <td><input id="email" name="email" type="text"></td>
-                    <td><input id="phone" name="phone" type="number"></td>
-                    <td><input id="pswd" name="pswd" type="text"></td>
-                </tr>
-                <input type="submit" value="Submit">
-            </form>
-            <script>
-                $(document).ready(()=>{
-                    $.get('../get/users', (data, status)=>{
-                        console.log(status);
-                        addRow('users', data);
-                    })
-                })
-            </script>
         </table>
-        <hr>
-        <table id="signout">
+    </div> <!-- Close the div container for the frame -->
+
+
+    <div class="frame"> <!-- Add a div container for the frame -->
+        <table id="signout" class="test">
             <tr>
-                <th>User</th>
+                <th class="rounded-top-left">User</th>
                 <th>Card</th>
                 <th>Date Taken</th>
                 <th>Expected Return</th>
                 <th>Actual Return</th>
-                <th>Returned on Time</th>
+                <th class="rounded-top-right">Returned on Time</th>
             </tr>
-            <script>
-                $(document).ready(()=>{
-                    $.get('../get/signout', (data, status)=>{
-                        console.log(status);
-                        addRow('signout', data);
-                    })
-                })
-            </script>
         </table>
-    </body>
+    </div> <!-- Close the div container for the frame -->
+
+    <script>
+        $(document).ready(() => {
+            $.get('../get/users', (data, status) => {
+                console.log(status);
+                var usersTable = $('#users'); // Get the table by ID
+
+                // Loop through the data and append rows to the users table
+                data.forEach((user) => {
+                    var row = $('<tr></tr>'); // Create a new table row
+                    row.append($('<td></td>').text(user.name)); // Append name
+                    row.append($('<td></td>').text(user.email)); // Append email
+                    row.append($('<td></td>').text(user.phone)); // Append phone
+                    row.append($('<td></td>').text(user.active)); // Append active
+
+                    usersTable.append(row); // Append the row to the table
+                });
+            });
+        });
+    </script>
+</body>
 </html>
