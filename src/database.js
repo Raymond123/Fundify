@@ -35,10 +35,8 @@ const cryptPassword = function(password, callback) {
     });
  };
 
-function addCard(data){
-    var sql = `INSERT INTO credit_cards 
-        (number, expiry_date, security_num, active) 
-        VALUES (${data.number}, ${data.expiry_date}, ${data.security_num}, true)`;
+exports.addCard = (data) => {
+    var sql = `INSERT INTO credit_cards (number, expiry_date, security_num, active) VALUES (${data.number}, '${data.expiry}', ${data.sec_num}, true)`;
     runQry(sql);
 }
 

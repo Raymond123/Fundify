@@ -28,10 +28,13 @@
             </tr>
             <form id="cc-input-form" action="/new_card" method="post">
                 <tr>
-                    <td><input id="card-num" name="card-num" type="text"></td>
-                    <td><input id="expiry" name="expiry" type="text"></td>
-                    <td><input id="sec-num" name="sec-num" type="text"></td>
-                    <td><input id="active" name="active" type="text"></td>
+                    <td><input id="card-num" name="number" type="number" maxlength="16" placeholder="Card Number"></td>
+                    <td>
+                        <input id="expiry" name="expiry" type="date" placeholder="Expiry Date">
+                        <input id="sec-num" name="sec_num" type="number" maxlength="3" placeholder="Security Code">
+                    </td>
+                    <td></td>
+                    <td></td>
                     <td></td>
                 </tr>
                 <tr>

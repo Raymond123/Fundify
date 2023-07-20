@@ -6,7 +6,7 @@ var userRouter = require('../src/routes/users');
 var signOutRouter = require('../src/routes/signout');
 var path = require('path');
 
-const { authorize, addUser, deleteUser } = require('../src/database');
+const { authorize, addUser, deleteUser, addCard } = require('../src/database');
 const port = 8090;
 
 var app = express();
@@ -72,6 +72,7 @@ app.post('/new_card', (req, res) => {
   console.log(req.body);
 
   // redirects back to main page to comply with POST/redirect pattern
+  addCard(req.body);
   res.redirect('main');
 })
 
