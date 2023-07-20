@@ -1,14 +1,85 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Login</title>
-        <script src="../src/common.js"></script>
-    </head>
-    <body>
-        <form id="login-form" action="/login" method="post">
-            <input id="username" name="email" type="text"><br><br>
-            <input type="text" name="password" id="pswd"><br><br>
-            <input type="submit" id="submit">
+<head>
+    <title>Login</title>
+    <style>
+        body {
+            background-color: #36287Cff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login-form {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .login-form h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #2c3e50; /* Change the text color to a dark shade */
+        }
+
+        .login-form h3 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #2c3e50; /* Change the text color to a dark shade */
+        }
+
+        .login-form input[type="text"],
+        .login-form input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+            color: #2c3e50; /* Change the text color to a dark shade */
+            box-sizing: border-box; /* Include padding and border in the element's total width */
+            max-width: 100%; /* Limit the width to 100% of the container */
+        }
+
+        .login-form input[type="submit"] {
+            background-color: #7B7A76ff;
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .login-form input[type="submit"]:hover {
+            background-color: #36287Cff;
+        }
+
+        .logo {
+            display: block;
+            margin: 0 auto;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form class="login-form" action="/login" method="post">
+            <img src="./../src/resource/LogoFundify.png" class="logo">
+            <h2>Login</h2>
+            <input type="text" id="username" name="email" placeholder="Email"><br><br>
+            <input type="password" name="password" id="pswd" placeholder="Password"><br><br>
+            <input type="submit" id="submit" value="Log In">
         </form>
-    </body>
+    </div>
+</body>
 </html>
