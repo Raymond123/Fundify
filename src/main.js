@@ -6,7 +6,7 @@ var userRouter = require('../src/routes/users');
 var signOutRouter = require('../src/routes/signout');
 var path = require('path');
 
-const { authorize, addUser, deleteUser, addCard } = require('../src/database');
+const { authorize, addUser, deleteUser, addCard, signOutCard, deleteCard, returnCard } = require('../src/database');
 const port = 8090;
 
 var app = express();
@@ -25,11 +25,11 @@ app.get('/main/styles.css', (req, res) => {
 });
 
 app.get('/get/logoStandard', (req, res) => {
-  res.sendFile(path.join(__dirname, `../src/LogoFundify.png`));
+  res.sendFile(path.join(__dirname, `../src/resource/LogoFundify.png`));
 });
 
 app.get('/get/logoLeft', (req, res) => {
-  res.sendFile(path.join(__dirname, `../src/LogoLeft.png`));
+  res.sendFile(path.join(__dirname, `../src/resource/LogoLeft.png`));
 });
 
 
@@ -46,6 +46,10 @@ app.get('/main', (req, res) => {
 
 app.get('/auth', authorize);
 
+app.get('/', (req, res) => {
+  res.render('../www/login.ejs');
+});
+
 app.get('/logout', function(req, res){
   req.session.destroy(function(){
      console.log("user logged out.")
@@ -53,8 +57,26 @@ app.get('/logout', function(req, res){
   res.redirect('/');
 });
 
-app.get('/', (req, res) => {
-  res.render('../www/login.ejs');
+app.get('/signout_card', (req, res) => {
+  params = req.query;
+
+  if(params.status){
+    var date = new Date();
+    var ret = new Date(date);
+    ret.setDate(date.getDate() + 7);
+
+    var dateStr = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDay();
+    var retStr = ret.getFullYear() + "-" + ret.getMonth() + "-" + ret.getDay();
+
+    data = { // ${data.card_id}, ${data.user_id}, ${data.date}, ${data.expected_return}
+      card_id: params.card,
+      user_id: params.user,
+      date: dateStr,
+      expected_return: retStr 
+    };
+    signOutCard(data);
+  }
+  res.redirect('../main');
 });
 
 app.get('/user/delete', (req, res) => {
@@ -67,10 +89,18 @@ app.get('/user/delete', (req, res) => {
   res.redirect('../main');
 });
 
+app.get('/cards/delete', (req, res) => {
+  params = req.query;
+  data = {
+    number: params.number,
+    security_num: params.sec_num
+  };
+  deleteCard(data);
+  res.redirect('../main');
+});
+
 app.post('/new_card', (req, res) => {
   if(res.statusCode != 200) console.log(res.statusCode);
-  console.log(req.body);
-
   // redirects back to main page to comply with POST/redirect pattern
   addCard(req.body);
   res.redirect('main');
@@ -78,10 +108,7 @@ app.post('/new_card', (req, res) => {
 
 app.post('/new_user', (req, res) => {
   if(res.statusCode != 200) console.log(res.statusCode);
-
-  addUser(req.body);
-  // redirects back to main page to comply with POST/redirect pattern
-  res.redirect('main');
+  addUser(req.body, res);
 })
 
 app.post('/login', (req, res) => {
@@ -89,6 +116,21 @@ app.post('/login', (req, res) => {
   req.session.email = data.email;
   req.session.pswd = data.password;
   res.redirect('auth');
+});
+
+app.post('/return_card', (req, res) => {
+  var body = req.body;
+
+  data = {
+    card_id: body.card,
+    user_id: body.user,
+    actual_return: body.ret_date,
+    status: body.ret_ont
+  };
+  console.log(data)
+
+  returnCard(data);
+  res.redirect('main');
 });
 
 app.listen(port, () => {
