@@ -72,9 +72,8 @@ function deleteCard(data){
     runQry(sql);
 }
 
-function deleteUser(data){
-    var sql = `DELETE FROM users
-        WHERE f_name=${data.f_name} AND email=${data.email}`;
+exports.deleteUser = (data) => {
+    var sql = `DELETE FROM users WHERE f_name='${data.f_name}' AND email='${data.email}'`;
     runQry(sql);
 }
 

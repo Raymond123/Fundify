@@ -6,7 +6,7 @@ var userRouter = require('../src/routes/users');
 var signOutRouter = require('../src/routes/signout');
 var path = require('path');
 
-const { authorize, addUser } = require('../src/database');
+const { authorize, addUser, deleteUser } = require('../src/database');
 const port = 8090;
 
 var app = express();
@@ -55,6 +55,16 @@ app.get('/logout', function(req, res){
 
 app.get('/', (req, res) => {
   res.render('../www/login.ejs');
+});
+
+app.get('/user/delete', (req, res) => {
+  params = req.query;
+  data = {
+    f_name: params.name,
+    email: params.email
+  };
+  deleteUser(data);
+  res.redirect('../main');
 });
 
 app.post('/new_card', (req, res) => {

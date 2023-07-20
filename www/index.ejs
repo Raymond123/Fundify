@@ -4,7 +4,7 @@
     <title>Testing</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="../src/common.js"></script>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="../src/styles.css">
 </head>
 <body>
     <!-- Navbar/header -->
@@ -13,11 +13,7 @@
             <div class="logo">
                 <a href="#"><img id="logo" src="/get/logoLeft" alt="Logo"></a>
             </div>
-            <a class="sub-nav" href="#">Home</a>
-            <a class="sub-nav" href="#">About</a>
-            <a class="sub-nav" href="#">Services</a>
-            <a class="sub-nav" href="#">Contact</a>
-            <button id="logout-button" class="logout">Logout</button>
+            <a id="logout-button" class="logout" href="/logout">Logout</a>
         </div>
     </div>
 
@@ -28,6 +24,7 @@
                 <th>Expiry</th>
                 <th>Active</th>
                 <th class="rounded-top-right">Signed Out</th>
+                <th></th>
             </tr>
             <form id="cc-input-form" action="/new_card" method="post">
                 <tr>
@@ -35,9 +32,10 @@
                     <td><input id="expiry" name="expiry" type="text"></td>
                     <td><input id="sec-num" name="sec-num" type="text"></td>
                     <td><input id="active" name="active" type="text"></td>
+                    <td></td>
                 </tr>
                 <tr>
-                    <td colspan="4">
+                    <td colspan="5">
                         <input type="submit" value="Submit">
                     </td>
                 </tr>
@@ -53,7 +51,28 @@
                 <th>Email</th>
                 <th>Phone</th>
                 <th class="rounded-top-right">Active</th>
+                <th></th>
             </tr>
+            <form id="user-input-form" action="/new_user" method="post">
+                <tr>
+                    <td>
+                        <input id="f_name" name="f_name" type="text" placeholder="First">
+                        <input id="l_name" name="l_name" type="text" placeholder="Last">
+                    </td>
+                    <td>
+                        <input id="email" name="email" type="text" placeholder="Email">
+                        <input id="pswd" name="pswd" type="password" placeholder="Password">
+                    </td>
+                    <td><input id="phone" name="phone" type="number"></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td colspan="6">
+                        <input type="submit" value="Submit">
+                    </td>
+                </tr>
+            </form>
         </table>
     </div> <!-- Close the div container for the frame -->
 
@@ -84,6 +103,31 @@
                     row.append($('<td></td>').text(user.email)); // Append email
                     row.append($('<td></td>').text(user.phone)); // Append phone
                     row.append($('<td></td>').text(user.active)); // Append active
+                    row.append(
+                        $(`<td>
+                                <a class="logout" href="/user/delete?name=${user.name.split(" ")[0]}&email=${user.email}">Delete</a>
+                            </td>`));
+
+                    usersTable.append(row); // Append the row to the table
+                });
+            });
+        });
+
+        $(document).ready(() => {
+            $.get('../get/cards', (data, status) => {
+                console.log(status);
+                var usersTable = $('#cc'); // Get the table by ID
+
+                // Loop through the data and append rows to the users table
+                data.forEach((card) => {
+                    var row = $('<tr></tr>'); // Create a new table row
+                    row.append($('<td></td>').text(card.number)); // Append card number
+                    // Append expiry date
+                    row.append($('<td></td>').text(card.expiry_date)); 
+                    row.append($('<td></td>').text(card.active)); // Append active status
+                    row.append($('<td></td>').text(card.signed_out)); // Append signed out status
+                    row.append(
+                        $('<td><a href="" class="logout" >Sign Out</a></td>'));
 
                     usersTable.append(row); // Append the row to the table
                 });
