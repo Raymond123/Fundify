@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var db=require('../database');
+var { con } = require('../database');
 
 router.get('/', function(req, res, next) {
     var sql=`SELECT 
@@ -10,7 +10,7 @@ router.get('/', function(req, res, next) {
         expected_return,
         actual_return,
         returned_on_time FROM sign_out`;
-    db.query(sql, function (err, data, fields) {
+    con.query(sql, function (err, data, fields) {
         if (err) throw err;
         res.status(200).send(data);
     });

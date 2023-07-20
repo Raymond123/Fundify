@@ -1,4 +1,5 @@
 var mysql = require('mysql');
+var bcrypt = require('bcrypt');
 
 var con = mysql.createConnection({
     host: "db-mysql-tor1-58148-do-user-11220454-0.b.db.ondigitalocean.com",
@@ -13,7 +14,26 @@ con.connect(function(err){
     if(err) throw err;
     console.log("Connected!");
 });
-module.exports = con;
+
+exports.con = con;
+
+const cryptPassword = function(password, callback) {
+    bcrypt.genSalt(10, function(err, salt) {
+        if (err) throw err;
+
+        bcrypt.hash(password, salt, function(err, hash) {
+            if(err) throw err;
+            return callback(hash);
+        });
+    });
+ };
+ 
+ const comparePassword = async function(plainPass, hashword, callback) {
+    bcrypt.compare(plainPass, hashword, function(err, isPasswordMatch) {   
+        if(err) throw err;
+        return callback(isPasswordMatch);
+    });
+ };
 
 function addCard(data){
     var sql = `INSERT INTO credit_cards 
@@ -22,11 +42,21 @@ function addCard(data){
     runQry(sql);
 }
 
-function addUser(data){
-    var sql = `INSERT INTO users 
-        (f_name, l_name, email, phone, active) 
-        VALUES (${data.f_name}, ${data.l_name}, ${data.email}, ${data.phone}, true)`;
-    runQry(sql);
+exports.addUser = (data) => {
+    const insert = (pswd) => {
+        var sql = `INSERT INTO users 
+        (f_name, l_name, email, phone, active, password) 
+        VALUES 
+        (
+            '${data.f_name}', 
+            '${data.l_name}', 
+            '${data.email}', 
+            '${data.phone}', true, 
+            '${pswd}'
+        )`;
+        runQry(sql);
+    }
+    cryptPassword(data.pswd, insert);   
 }
 
 function signOutCard(data){
@@ -52,7 +82,7 @@ function returnCard(data){
     var sql = `SELECT expected_return FROM sign_out 
     WHERE card_id=${data.card_id} AND user_id=${data.user_id}`
 
-    db.query(sql, (err, returnData, fields) => {
+    con.query(sql, (err, returnData, fields) => {
         if(err) throw err;
 
         // check date before after
@@ -66,7 +96,23 @@ function returnCard(data){
 }
 
 function runQry(sql){
-    db.query(sql, (err, status) => {
+    con.query(sql, (err, status) => {
         if(err) throw err;
+    });
+}
+
+exports.authorize = (email, pswd, res) => {
+    var sql = `SELECT password FROM users WHERE email='${email}'`
+    con.query(sql, (err, data, fields) => {
+        if(err) throw err;
+        if(data===null) res.redirect('/');;
+        return comparePassword(pswd, data[0].password, (bool) => {
+            console.log(bool);
+            if(bool) {
+                res.redirect('main');
+                return;
+            }
+            res.redirect('/');
+        });
     });
 }

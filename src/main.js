@@ -1,11 +1,11 @@
 var express = require('express');
-var common = require('../src/common');
 var bodyparser = require('body-parser');
 var cardsRouter = require('../src/routes/cards');
 var userRouter = require('../src/routes/users');
 var signOutRouter = require('../src/routes/signout');
 var path = require('path');
 
+const { authorize, addUser } = require('../src/database');
 const port = 8090;
 
 var app = express();
@@ -18,6 +18,20 @@ app.use(bodyparser.urlencoded({
 }));
 app.use(bodyparser.json());
 
+// Serve the CSS file
+app.get('/main/styles.css', (req, res) => {
+  res.sendFile(path.join(__dirname, 'styles.css'), { headers: { 'Content-Type': 'text/css' } });
+});
+
+app.get('/get/logoStandard', (req, res) => {
+  res.sendFile(path.join(__dirname, `../src/LogoFundify.png`));
+});
+
+app.get('/get/logoLeft', (req, res) => {
+  res.sendFile(path.join(__dirname, `../src/LogoLeft.png`));
+});
+
+
 // Routes
 app.use('/get/cards', cardsRouter);
 app.use('/get/users', userRouter);
@@ -27,6 +41,10 @@ app.use('/get/signout', signOutRouter);
 app.get('/main', (req, res) => {
   res.render('../www/index.ejs');
 });
+app.get('/', (req, res) => {
+  res.render('../www/login.ejs');
+});
+
 app.post('/new_card', (req, res) => {
   if(res.statusCode != 200) console.log(res.statusCode);
   console.log(req.body);
@@ -34,6 +52,19 @@ app.post('/new_card', (req, res) => {
   // redirects back to main page to comply with POST/redirect pattern
   res.redirect('main');
 })
+
+app.post('/new_user', (req, res) => {
+  if(res.statusCode != 200) console.log(res.statusCode);
+
+  addUser(req.body);
+  // redirects back to main page to comply with POST/redirect pattern
+  res.redirect('main');
+})
+
+app.post('/login', (req, res) => {
+  var data = req.body;
+  authorize(data.email, data.password, res);
+});
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}..`)
