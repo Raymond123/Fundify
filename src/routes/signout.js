@@ -4,6 +4,7 @@ var { con } = require('../database');
 
 router.get('/', function(req, res, next) {
     var sql=`SELECT 
+        sign_out_id,
         user_id,
         card_id,
         date, 

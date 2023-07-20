@@ -79,19 +79,17 @@
     </div> <!-- Close the div container for the frame -->
 
     <div class="frame"> <!-- Add a div container for the frame -->
-        <form id='return-form' action="/return_card"  method='post'>
-            <table id="signout" class="test">
-                <tr>
-                    <th class="rounded-top-left">User</th>
-                    <th>Card</th>
-                    <th>Date Taken</th>
-                    <th>Expected Return</th>
-                    <th>Actual Return</th>
-                    <th class="rounded-top-right">Returned on Time</th>
-                    <th></th>
-                </tr>
-            </table>
-        </form>
+        <table id="signout" class="test">
+            <tr>
+                <th class="rounded-top-left">User</th>
+                <th>Card</th>
+                <th>Date Taken</th>
+                <th>Expected Return</th>
+                <th>Actual Return</th>
+                <th class="rounded-top-right">Returned on Time</th>
+                <th></th>
+            </tr>
+        </table>
     </div> <!-- Close the div container for the frame -->
 
     <script>
@@ -138,12 +136,13 @@
                     // Append active status
                     if(card.active){ 
                         row.append($('<td>Active</td>'));
-                        row.append($('<td></td>').text(card.signed_out)); // Append signed out status
+                        if(card.signed_out) row.append($('<td>True</td>'));
+                        else row.append($('<td>False</td>'));
                         row.append(
                             $(`<td><a style="margin-left: 5px;" class="logout" href="/cards/delete?number=${card.number.split(" ")[0]}&sec_num=${card.security_num}">Delete</a><a href="/signout_card?card=${card.card_id}&status=${card.active}" class="logout">Sign Out</a></td>`));
                     }else {
                         row.append($('<td>Inactive</td>'));
-                        row.append($('<td></td>'));
+                        row.append($('<td>False</td>'));
                         row.append($('<td></td>'));
                     }
                     
@@ -170,15 +169,10 @@
                         row.append($('<td></td>').text(card.returned_on_time));
                         row.append($('<td></td>')); 
                     }else{
+                        row.append($('<td></td>'));
+                        row.append($('<td></td>'));
                         row.append(
-                            $(`<td>
-                                <input name="user" type="hidden" value=${card.user_id}>
-                                <input name="card" type="hidden" value=${card.card_id}>
-                                <input id="ret-date" name="ret_date" type="date" placeholder="Date Returned"></td>
-                            <td>
-                                <input id="ret-ont" name="ret_ont" placeholder="true/false"></td>
-                            <td><input id='sub' value='Return' type='submit'></td>`));
-                        row.append($(''));
+                            $(`<td><a class="logout" id='sub' href='/return_card?ret_date=${card.expected_return}&id=${card.sign_out_id}&user_id=${card.user_id}&card_id=${card.card_id}'>Return</a></td>`));
                     }
 
                     usersTable.append(row); // Append the row to the table

@@ -77,9 +77,12 @@ exports.deleteUser = (data) => {
 }
 
 exports.returnCard = (data) => {
-    sql = `UPDATE sign_out SET actual_return='${data.actual_return}', returned_on_time=${data.status} WHERE card_id=${data.card_id} AND user_id=${data.user_id}`;
+    sql = `UPDATE sign_out SET actual_return='${data.actual_return}', returned_on_time=${data.status} WHERE sign_out_id=${data.sign_out_id}`;
+
+    var sql2 = `UPDATE credit_cards SET signed_out=0 WHERE card_id=${data.card_id}`;
 
     runQry(sql);
+    runQry(sql2);
 }
 
 function runQry(sql){

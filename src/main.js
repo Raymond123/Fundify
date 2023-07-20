@@ -119,17 +119,29 @@ app.post('/login', (req, res) => {
   res.redirect('auth');
 });
 
-app.post('/return_card', (req, res) => {
-  var body = req.body;
+app.get('/return_card', (req, res) => {
+  var body = req.query;
+
+  var date = new Date();
+  var dateStr = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDay();
+
+  var ret = new Date(body.ret_date);
+  var bool = 0;
+  if(ret <= date) bool = 1;
+  console.log(ret <= date);
 
   data = {
-    card_id: body.card,
-    user_id: body.user,
-    actual_return: body.ret_date,
-    status: body.ret_ont
+    sign_out_id: body.id,
+    card_id: body.card_id,
+    actual_return: dateStr,
+    status: bool
   };
 
-  returnCard(data);
+  if(body.user_id == req.session.user_id){
+    returnCard(data);
+  }else{
+    Window.alert("Cannot sign out others users cards");
+  }
   res.redirect('main');
 });
 
