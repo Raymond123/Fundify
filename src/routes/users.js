@@ -3,7 +3,8 @@ var router = express.Router();
 var { con } = require('../database');
 
 router.get('/', function(req, res, next) {
-    var sql = `SELECT  
+    var sql = `SELECT 
+        user_id, 
         CONCAT(f_name,' ', l_name) as name, 
         email, 
         phone, 
